@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">quizz</string>
+    <string name="button_true">Prawda</string>
+    <string name="button_false">Fałsz</string>
+    <string name="button_next">Następne</string>
+    <string name="correct_answer">Poprawna odpowiedź</string>
+    <string name="incorrect_answer">Niepoprawna odpowiedź</string>
+    <string name="q_activity">W logo Androida znajduje się robot koloru niebieskiego.</string>
+    <string name="q_version">Aplikacje na Androida są napisane w języku Java lub Kotlin.</string>
+    <string name="q_listener">Android jest oparty na jądrze Linuxa.</string>
+    <string name="q_resources">Android jest systemem operacyjnym dla komputerów osobistych.</string>
+    <string name="q_find_resources">Android jest rozwijany przez firmę Apple.</string>
+</resources>
