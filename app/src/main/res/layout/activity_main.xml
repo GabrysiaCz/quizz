@@ -16,22 +16,35 @@
         android:id="@+id/question_text_view"
         android:padding="30dp"/>
 
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_true"
-        android:id="@+id/button_true"/>
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_false"
-        android:id="@+id/button_false"/>
+        <Button
+            android:id="@+id/button_true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_true" />
+
+        <Button
+            android:id="@+id/button_false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_false" />
+
+    </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_next"
         android:id="@+id/button_next"/>
+
+    <TextView
+        android:id="@+id/answers_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
 
 </LinearLayout>
