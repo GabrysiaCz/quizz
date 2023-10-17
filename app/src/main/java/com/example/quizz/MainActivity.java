@@ -8,12 +8,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.util.Log;
+import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String KEY_CURRENT_INDEX = "currentIndex";
+    private static final String QUIZ_TAG = "MainActivity";
     private Button trueButton;
     private Button falseButton;
     private Button nextButton;
+    private Button showAnswerButton;
     private TextView questionTextView;
     private TextView answersTextView;
     private int currentIndex = 0;
@@ -60,20 +64,27 @@ public class MainActivity extends AppCompatActivity {
             answersTextView.setText("" + correctAnswers);
         }
     }
+    private TextView answerTextView;
+    private String answer;
 
 @SuppressLint("MissingInflatedId")
 @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(QUIZ_TAG, "Wywołana została metoda cyklu życia: onCreate");
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            currentIndex = savedInstanceState.getInt(KEY_CURRENT_INDEX);
+        }
 
         trueButton = findViewById(R.id.button_true);
         falseButton = findViewById(R.id.button_false);
         nextButton = findViewById(R.id.button_next);
         questionTextView = findViewById(R.id.question_text_view);
         answersTextView = findViewById(R.id.answers_text_view);
-
-
+        answerTextView = findViewById(R.id.answerTextView); // Dodaj tę linię
+        showAnswerButton = findViewById(R.id.showAnswerButton);
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +104,65 @@ public class MainActivity extends AppCompatActivity {
                 setNextQuestion();
         }
         });
+        showAnswerButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent promptIntent = new Intent(MainActivity.this, PromptActivity.class);
+            promptIntent.putExtra("answer", answer);
+            startActivityForResult(promptIntent, PROMPT_ACTIVITY_REQUEST_CODE);
+        }
+    });
+
         setNextQuestion();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("MainActivity", "onStart() wywołane");
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.d("MainActivity", "onResume() wywołane");
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Log.d("MainActivity", "onPause() wywołane");
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Log.d("MainActivity", "onStop() wywołane");
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Log.d("MainActivity", "onDestroy() wywołane");
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("MainActivity", "Wywołana została metoda: onSaveInstanceState");
+        outState.putInt(KEY_CURRENT_INDEX, currentIndex);
+    }
+    private static final int PROMPT_ACTIVITY_REQUEST_CODE = 1;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PROMPT_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK&& data != null) {
+                if (data != null) {
+                    String answer = data.getStringExtra("answer");
+                    answerTextView.setText(answer);
+                }
+            }
+        }
+    }
+
 }
