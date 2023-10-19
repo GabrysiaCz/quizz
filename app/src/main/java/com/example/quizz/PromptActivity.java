@@ -13,6 +13,7 @@ public class PromptActivity extends AppCompatActivity {
     private TextView questionTextView;
     private TextView answerTextView;
     private Button showAnswerButton;
+    private boolean correctAnswer;
     public static final String KEY_EXTRA_ANSWER_SHOWN = "com.example.quiz.answerShown";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,26 +28,21 @@ public class PromptActivity extends AppCompatActivity {
         String question = "Czy na pewno chcesz zobaczyć odpowiedź?";
         questionTextView.setText(question);
 
-        // Obsługa przycisku "Pokaż odpowiedź"
+        correctAnswer = getIntent().getBooleanExtra(MainActivity.KEY_EXTRA_ANSWER, true);
+
         showAnswerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int questionId = getIntent().getIntExtra("questionId", 0);
-                String answerIdentifier = "answer_prefix_" + questionId;
-                int answerResId = getResources().getIdentifier(answerIdentifier, "string", getPackageName());
-
-                if (answerResId != 0) {
-                    String answerText = getResources().getString(answerResId);
-
-                    answerTextView.setText(answerText);
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("answer", answerText);
-
-                    setResult(RESULT_OK, resultIntent);
-                }
+                int answer = correctAnswer ? R.string.button_true : R.string.button_false;
+                answerTextView.setText(answer);
+                setAnswerShownResult(true);
             }
         });
-
+    }
+        private void setAnswerShownResult(boolean answerWasShown){
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(KEY_EXTRA_ANSWER_SHOWN, answerWasShown);
+            setResult(RESULT_OK, resultIntent);
+        }
 
     }
-}

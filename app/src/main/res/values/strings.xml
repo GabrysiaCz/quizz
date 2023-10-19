@@ -10,4 +10,5 @@
     <string name="q_listener">Android jest oparty na jądrze Linuxa.</string>
     <string name="q_resources">Android jest systemem operacyjnym dla komputerów osobistych.</string>
     <string name="q_find_resources">Android jest rozwijany przez firmę Apple.</string>
+    <string name="answer_was_shown">Odpowiedź była już wyświetlana</string>
 </resources>
