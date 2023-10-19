@@ -16,7 +16,7 @@ import android.content.Intent;
 public class MainActivity extends AppCompatActivity {
     private static final String KEY_CURRENT_INDEX = "currentIndex";
     private static final String QUIZ_TAG = "MainActivity";
-    public static final String KEY_EXTRA_ANSWER = "pl.edu.pb.wi.quiz.correctAnswer";
+    public static final String KEY_EXTRA_ANSWER = "com.example.quizz.correctAnswer";
     private static final int REQUEST_CODE_PROMPT = 0;
     private Button trueButton;
     private Button falseButton;
@@ -157,13 +157,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("MainActivity", "onPause() wywołane");
+        Log.d("Quizz", "onPause() wywołane");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("MainActivity", "onStop() wywołane");
+        Log.d("Quizz", "onStop() wywołane");
     }
 
     @Override

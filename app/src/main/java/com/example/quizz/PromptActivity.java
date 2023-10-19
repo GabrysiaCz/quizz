@@ -14,7 +14,7 @@ public class PromptActivity extends AppCompatActivity {
     private TextView answerTextView;
     private Button showAnswerButton;
     private boolean correctAnswer;
-    public static final String KEY_EXTRA_ANSWER_SHOWN = "com.example.quiz.answerShown";
+    public static final String KEY_EXTRA_ANSWER_SHOWN = "com.example.quizz.answerShown";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
