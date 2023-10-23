@@ -1,5 +1,6 @@
 package com.example.quizz;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -16,12 +17,11 @@ import android.content.Intent;
 public class MainActivity extends AppCompatActivity {
     private static final String KEY_CURRENT_INDEX = "currentIndex";
     private static final String QUIZ_TAG = "MainActivity";
-    public static final String KEY_EXTRA_ANSWER = "com.example.quizz.correctAnswer";
     private static final int REQUEST_CODE_PROMPT = 0;
+    public static final String KEY_EXTRA_ANSWER = "com.example.quizz.correctAnswer";
     private Button trueButton;
     private Button falseButton;
     private Button nextButton;
-    private Button showAnswerButton;
     private TextView questionTextView;
     private TextView answersTextView;
     private int currentIndex = 0;
@@ -69,15 +69,30 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 resultMessageId = R.string.incorrect_answer;
             }
+        }
             Toast.makeText(this, resultMessageId, Toast.LENGTH_SHORT).show();
             if (currentIndex == 4) {
                 answersTextView.setText("" + correctAnswers);
             }
-        }
+
     }
 
     private TextView answerTextView;
     private String answer;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_CODE_PROMPT) {
+            if (data == null) {
+                return;
+            }
+            answerWasShown = data.getBooleanExtra(PromptActivity.KEY_EXTRA_ANSWER_SHOWN, false);
+        }
+    }
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -96,17 +111,15 @@ public class MainActivity extends AppCompatActivity {
         questionTextView = findViewById(R.id.question_text_view);
         answersTextView = findViewById(R.id.answers_text_view);
         answerTextView = findViewById(R.id.answerTextView);
-        //showAnswerButton = findViewById(R.id.showAnswerButton);
         Button promptButton = findViewById(R.id.promptButton);
 
-        promptButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        promptButton.setOnClickListener(view ->  {
+
                 Intent intent = new Intent(MainActivity.this, PromptActivity.class);
                 boolean correctAnswer = questions[currentIndex].isTrueAnswer();
                 intent.putExtra(KEY_EXTRA_ANSWER, correctAnswer);
                 startActivityForResult(intent, REQUEST_CODE_PROMPT);
-            }
+
         });
 
 
@@ -130,14 +143,6 @@ public class MainActivity extends AppCompatActivity {
                 setNextQuestion();
             }
         });
-        /*showAnswerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent promptIntent = new Intent(MainActivity.this, PromptActivity.class);
-                promptIntent.putExtra("answer", answer);
-                startActivityForResult(promptIntent, PROMPT_ACTIVITY_REQUEST_CODE);
-            }
-        });*/
 
         setNextQuestion();
     }
@@ -145,31 +150,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("MainActivity", "onStart() wywołane");
+        Log.d("QUIZ_TAG", "onStart() wywołane");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("MainActivity", "onResume() wywołane");
+        Log.d("QUIZ_TAG", "onResume() wywołane");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("Quizz", "onPause() wywołane");
+        Log.d("QUIZ_TAG", "onPause() wywołane");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("Quizz", "onStop() wywołane");
+        Log.d("QUIZ_TAG", "onStop() wywołane");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("MainActivity", "onDestroy() wywołane");
+        Log.d("QUIZ_TAG", "onDestroy() wywołane");
     }
 
     @Override
@@ -177,22 +182,5 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         Log.d("MainActivity", "Wywołana została metoda: onSaveInstanceState");
         outState.putInt(KEY_CURRENT_INDEX, currentIndex);
-    }
-
-    private static final int PROMPT_ACTIVITY_REQUEST_CODE = 1;
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        if (requestCode == REQUEST_CODE_PROMPT) {
-            if (data == null) {
-                return;
-            }
-            answerWasShown = data.getBooleanExtra(PromptActivity.KEY_EXTRA_ANSWER_SHOWN, false);
-        }
     }
 }
